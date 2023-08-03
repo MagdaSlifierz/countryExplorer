@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from config import setting
 
 
 description_app = """
@@ -18,13 +19,17 @@ tags = [
 
 ]
 
-#updating metadata information title
-app = FastAPI(title="Country Explorer",
-              description=description_app, 
-              contact = {
-                  "name": "Magdalena Slifierz"
-              }, openapi_tags=tags)
+#updating metadata information title THIS IS HARDCODED VERSION
+# app = FastAPI(title="Country Explorer",
+#               description=description_app, 
+#               contact = {
+#                   "name": "Magdalena Slifierz"
+#               }, openapi_tags=tags)
 
+app = FastAPI(title = setting.TITLE, 
+              version=setting.VERSION, 
+              description= setting.DESCRIPTION,
+              contact={ "name": setting.NAME} )
 #the tag name it is kind of a folder for routers
 @app.get('/user/', tags=['user'])
 def get_user():
