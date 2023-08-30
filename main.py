@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from config import setting
+from database import engine
+from models import Base
 
+
+#that's the connection to database
+Base.metadata.create_all(bind=engine)
 
 #to do not have default name in docs I can specify them by routs. like folder
 
