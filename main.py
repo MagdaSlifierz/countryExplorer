@@ -38,7 +38,7 @@ app = FastAPI(title = setting.TITLE,
 
 
 #the tag name it is kind of a folder for routers
-@app.get('/user/', tags=['user'])
+@app.get('/user', tags=['user'])
 def get_user():
     return "Hello user"
 
