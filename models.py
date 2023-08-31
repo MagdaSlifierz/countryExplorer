@@ -32,6 +32,6 @@ class Country(Base):
 
     #create a relationship between 2 class
     #back_populates or back_references it will still both work.
-    #can be also withut it but with it the fild will be updated in any tables 
+    #can be also without it but with it the fild will be updated in any tables 
     
     creator_user = relationship("User", back_populates="country" )

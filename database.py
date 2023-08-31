@@ -15,8 +15,13 @@ SessionLocal = sessionmaker(autcommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
 # function for dependency injection. Finally block always will be execute. It will close database
+# dependency injection is used to manage and provide dependencies, such as database connections, authentication services,
+#  configuration settings, etc., to your application's endpoints and other components.
+
+
 def get_db() -> Generator:
     try:
+        #generate session object
         db = SessionLocal()
         yield db
     finally:
