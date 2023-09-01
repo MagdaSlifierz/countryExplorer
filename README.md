@@ -1,14 +1,14 @@
-# CountryInfo App - Under Construction
+# CountryExplorer App - Under Construction
 
-Welcome to the README document for the **CountryInfo App**, a personal project aimed at teaching people about different countries using the FastAPI framework. Please note that the app is currently under construction, and this README provides an overview of the app's purpose, features, and functionality that will be available upon completion.
+Welcome to the README document for the **CountryExplorer App**, a personal project aimed at teaching people about different countries using the FastAPI framework. Please note that the app is currently under construction, and this README provides an overview of the app's purpose, features, and functionality that will be available upon completion.
 
 ## Overview
 
-The CountryInfo App is designed to provide users with information about various countries. It is built using the FastAPI framework and focuses on allowing users to contribute and access information related to different countries. Users will be able to add details about countries, including descriptions, information about the people, capital city, and official language.
+The CountryExplorer App is designed to provide users with information about various countries. It is built using the FastAPI framework and focuses on allowing users to contribute and access information related to different countries. Users will be able to add details about countries, including descriptions, information about the people, capital city, and official language.
 
 ## Features
 
-Upon completion, the CountryInfo App will offer the following features:
+Upon completion, the CountryExplorer App will offer the following features:
 
 1. **User Authentication**: The app will provide user authentication functionality. Users will be able to create accounts, log in, and log out. This ensures that only authorized users can access certain features and contribute data.
 
@@ -44,6 +44,6 @@ Please note that these instructions assume a basic familiarity with Python, Fast
 
 ## Conclusion
 
-Thank you for your interest in the CountryInfo App! As this is an ongoing personal project for learning purposes, please stay tuned for updates and the official release. The goal is to create an educational and informative platform for exploring and sharing information about different countries. If you have any questions or suggestions, feel free to reach out.
+Thank you for your interest in the CountryExplorer App! As this is an ongoing personal project for learning purposes, please stay tuned for updates and the official release. The goal is to create an educational and informative platform for exploring and sharing information about different countries. If you have any questions or suggestions, feel free to reach out.
 
 **Note:** This README is a placeholder and will be updated as the project progresses.
