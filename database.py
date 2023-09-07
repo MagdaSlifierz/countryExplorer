@@ -9,7 +9,7 @@ SQLALCHEMY_DATABASE_URL = setting.DATABASE_URL
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 #session local and for this session we create get_db function
-SessionLocal = sessionmaker(autcommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 Base = declarative_base()
