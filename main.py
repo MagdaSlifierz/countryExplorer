@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from config import setting
 from database import engine
 from models import Base
+from schemas import UserCreate
 
 
 #that's the connection to database
@@ -49,3 +50,8 @@ def get_countires():
 @app.get('/getenvvar', tags=['congig'])
 def get_evnars():
     return {"database": setting.DATABASE_URL}
+
+@app.post('/users', tags=['user'])
+def create_user(user: UserCreate): #accept data from the user using the schema user pass data
+    print(user.email)
+    print(user.password)
