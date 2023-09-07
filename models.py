@@ -9,13 +9,15 @@ class User(Base):
     __tablename__ = 'users'
     
     user_id = Column(Integer, primary_key=True, index=True)
-    first_name = Column(String, length=225)
-    last_name = Column(String, length=225)
-    email = Column(String, length=225, unique=True, index=True, nullable=False)
-    password = Column(String, length=225, unique=True, nullable=False)
+    first_name = Column(String(225))
+    last_name = Column(String)
+    email = Column(String(225), unique=True, index=True, nullable=False)
+    password = Column(String, unique=True, nullable=False)
     is_active = Column(Boolean, default=True)
 
-    country = relationship("Country", back_populates="country_user")
+    # Define a relationship with the 'Country' model
+    # Use 'Country.creator_user' to reference the back_populates attribute  
+    country = relationship("Country", back_populates="creator_user")
 
 
 
@@ -23,10 +25,10 @@ class Country(Base):
     __tablename__ = 'countries'
 
     country_id = Column(Integer, primary_key=True, index=True)
-    country_name = Column(String, length=225, nullable=False)
-    capital = Column(String, length=225)
-    official_lang = Column(String, length=225)
-    description = Column(String, length=225)
+    country_name = Column(String,  nullable=False)
+    capital = Column(String)
+    official_lang = Column(String)
+    description = Column(String)
     
     user_creator_id = Column(Integer, ForeignKey('users.user_id'))
 
