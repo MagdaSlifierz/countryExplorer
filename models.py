@@ -15,7 +15,9 @@ class User(Base):
     password = Column(String, unique=True, nullable=False)
     is_active = Column(Boolean, default=True)
 
-    country = relationship("Country", back_populates="country_user")
+    # Define a relationship with the 'Country' model
+    # Use 'Country.creator_user' to reference the back_populates attribute  
+    country = relationship("Country", back_populates="creator_user")
 
 
 

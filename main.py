@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from config import setting
 from database import engine
 from models import Base
-from schemas import UserCreate
+from routers import users, countries
 
 
 #that's the connection to database
@@ -38,20 +38,6 @@ app = FastAPI(title = setting.TITLE,
               contact={ "name": setting.NAME} )
 
 
-#the tag name it is kind of a folder for routers
-@app.get('/user', tags=['user'])
-def get_user():
-    return "Hello user"
-
-@app.get('/countries', tags=['countries'])
-def get_countires():
-    return "Hello countries"
-
-@app.get('/getenvvar', tags=['congig'])
-def get_evnars():
-    return {"database": setting.DATABASE_URL}
-
-@app.post('/users', tags=['user'])
-def create_user(user: UserCreate): #accept data from the user using the schema user pass data
-    print(user.email)
-    print(user.password)
+#this is to include routers
+app.include_router(users.router)
+app.include_router(countries.router)
