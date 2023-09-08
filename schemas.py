@@ -7,6 +7,16 @@ class UserCreate(BaseModel):
     email : EmailStr
     password : str
 
+class UserShow(BaseModel):
+    first_name : str
+    last_name : str
+    email : EmailStr
+    is_active: bool
+
+    #it will output json response key-value pair. it should map our class usershow to key. 
+    class Config:
+        orm_mode=True
+
 
 class Country(BaseModel):
     country_name : str

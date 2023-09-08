@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from schemas import UserCreate
+from schemas import UserCreate, UserShow
 from models import User
 from hashing import Hasher
 from database import get_db
@@ -12,8 +12,8 @@ router = APIRouter()
 def get_user():
     return "Hello user"
 
-
-@router.post('/users', tags=['user'])
+#response model help us so user won't see all the models like password, it will see only a usershow schemas filds
+@router.post('/users', tags=['user'], response_model=UserShow)
 def create_user(user: UserCreate, db:Session=Depends(get_db)): #accept data from the user using the schema. user pass data
     # icreate an object
     #password I use hasher class with the func get_hash and I pass user.password to it
