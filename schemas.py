@@ -18,8 +18,26 @@ class UserShow(BaseModel):
         orm_mode=True
 
 
-class Country(BaseModel):
+class CountryCreate(BaseModel):
     country_name : str
     capital : str
-    official_flag: str
+    official_lang: str
     description : str
+    user_creator_id : int
+    
+
+class ShowCountry(BaseModel):
+    country_name : str
+    capital : str
+    official_lang: str
+    description : str
+
+    class Config:
+        orm_mode = True
+
+        '''{
+  "country_name": "Poland",
+  "capital": "Warsaw",
+  "official_lang": "Polish",
+  "description": "Poland is located at the heart of the European continent"
+}'''
