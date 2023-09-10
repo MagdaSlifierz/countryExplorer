@@ -41,3 +41,4 @@ app = FastAPI(title = setting.TITLE,
 #this is to include routers
 app.include_router(users.router)
 app.include_router(countries.router)
+

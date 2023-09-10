@@ -35,9 +35,8 @@ class ShowCountry(BaseModel):
     class Config:
         orm_mode = True
 
-        '''{
-  "country_name": "Poland",
-  "capital": "Warsaw",
-  "official_lang": "Polish",
-  "description": "Poland is located at the heart of the European continent"
-}'''
+class CountryUpdate(BaseModel):
+    country_name : str
+    capital : str
+    official_lang: str
+    description : str
