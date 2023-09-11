@@ -7,3 +7,4 @@ pydantic[email]
 passlib[bcrypt]
 pytest
 httpx
+pytest-cov 

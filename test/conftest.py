@@ -21,6 +21,7 @@ TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engin
 Base.metadata.create_all(bind=engine)
 
 #it is a fixture
+#this will run before executing test cases
 @pytest.fixture
 def client():
     #override get_db function
