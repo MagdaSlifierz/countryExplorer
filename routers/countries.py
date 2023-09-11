@@ -69,9 +69,19 @@ def update_country_by_id(country_id_pass: int, country_update: CountryUpdate, db
     else: 
         #update key word use dictionary as an input
         # the country_update is pydentic schema and I have to convert to it jesonable_encoder
+        #you can use magic method like existing_country.update(country_update.__dict__)
         existing_country.update(jsonable_encoder(country_update))
         # print(country_update)
         # print(jsonable_encoder(country_update))
         db.commit()
         return {"message" : f"Detail for Country ID {country_id_pass} has been sucessfully update it."}
-       
+
+@router.delete('/country/delete/{country_id_pass}', tags=['countries'])      
+def delete_country_by_id(country_id_pass : int, db: Session = Depends(get_db)):
+    delete_country = db.query(Country).filter(Country.country_id==country_id_pass)
+    if not delete_country.first():
+        return {"message" : f"This country ID {country_id_pass} does not exist. Create one first"}
+    else:
+        delete_country.delete()
+        db.commit()
+        return {"message": f"You deleted the country ID {country_id_pass}"}
