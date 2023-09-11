@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from database import get_db
 from typing import List
 from fastapi.encoders import jsonable_encoder
+from routers.login import oauth2_scheme
 
 router = APIRouter()
 
@@ -18,7 +19,8 @@ def get_countires():
     
 @router.post('/country', tags=['countries'], response_model=ShowCountry)
 #user pass data the same like schema and pass them to modeltable
-def create_country(country: CountryCreate, db: Session = Depends(get_db)):
+#adding token to check if the user is authenticated so ontly particular user can add country
+def create_country(country: CountryCreate, db: Session = Depends(get_db), token: str=Depends(oauth2_scheme)):
     #country: CountryCreate this is schema user pass schema
     #this goes from database model countryn
 
@@ -62,7 +64,7 @@ def get_country_by_id(country_id_pass: int, db: Session = Depends(get_db)): #i w
     
 @router.put('/country/update/{country_id_pass}', tags=['countries'])
 #here is what we pass
-def update_country_by_id(country_id_pass: int, country_update: CountryUpdate, db: Session = Depends(get_db)):
+def update_country_by_id(country_id_pass: int, country_update: CountryUpdate, db: Session = Depends(get_db), token:str=Depends(oauth2_scheme)):
     existing_country = db.query(Country).filter(Country.country_id==country_id_pass)
     if not existing_country.first():
         return {"message" : f"No details exists for Country ID {country_id_pass}"}
@@ -77,7 +79,7 @@ def update_country_by_id(country_id_pass: int, country_update: CountryUpdate, db
         return {"message" : f"Detail for Country ID {country_id_pass} has been sucessfully update it."}
 
 @router.delete('/country/delete/{country_id_pass}', tags=['countries'])      
-def delete_country_by_id(country_id_pass : int, db: Session = Depends(get_db)):
+def delete_country_by_id(country_id_pass : int, db: Session = Depends(get_db), token:str=Depends(oauth2_scheme)):
     delete_country = db.query(Country).filter(Country.country_id==country_id_pass)
     if not delete_country.first():
         return {"message" : f"This country ID {country_id_pass} does not exist. Create one first"}

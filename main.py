@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from config import setting
 from database import engine
 from models import Base
-from routers import users, countries
+from routers import users, countries, login
 
 
 #that's the connection to database
@@ -41,4 +41,5 @@ app = FastAPI(title = setting.TITLE,
 #this is to include routers
 app.include_router(users.router)
 app.include_router(countries.router)
+app.include_router(login.router)
 

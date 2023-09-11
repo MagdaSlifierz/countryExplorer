@@ -8,3 +8,4 @@ passlib[bcrypt]
 pytest
 httpx
 pytest-cov 
+python-multipart
