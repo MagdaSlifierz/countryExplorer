@@ -11,20 +11,7 @@ from config import setting
 
 router = APIRouter()
 
-
-#the tag name it is kind of a folder for routers
-@router.get('/countries', tags=['countries'])
-def get_countires():
-    return "Hello countries"
-
-   
-    
-@router.post('/country', tags=['countries'], response_model=ShowCountry)
-#user pass data the same like schema and pass them to modeltable
-#adding token to check if the user is authenticated so ontly particular user can add country
-def create_country(country: CountryCreate, db: Session = Depends(get_db), token: str=Depends(oauth2_scheme)):
-    #country: CountryCreate this is schema user pass schema
-    #this goes from database model countryn
+def get_user_from_token(db, token):
     #this is to decoded the token and it is return as payload data
     try:
         payload = jwt.decode(token, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
@@ -37,7 +24,18 @@ def create_country(country: CountryCreate, db: Session = Depends(get_db), token:
 
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
+    return user
 
+   
+    
+@router.post('/country', tags=['countries'], response_model=ShowCountry)
+#user pass data the same like schema and pass them to modeltable
+#adding token to check if the user is authenticated so ontly particular user can add country
+def create_country(country: CountryCreate, db: Session = Depends(get_db), token: str=Depends(oauth2_scheme)):
+    #country: CountryCreate this is schema user pass schema
+    #this goes from database model countryn
+    #this is to decoded the token and it is return as payload data
+    user = get_user_from_token(db, token)
         # Create a new country using the Pydantic model's attributes
     new_country = Country(
         country_name=country.country_name,
@@ -67,6 +65,8 @@ def get_all_countries(db:Session = Depends(get_db)):
     all_countries = db.query(Country).all()
     return all_countries
 
+
+
 #passing in path parameter router the id of the element what we want to read
 @router.get('/country/{country_id_pass}', tags=['countries'], response_model=ShowCountry)
 def get_country_by_id(country_id_pass: int, db: Session = Depends(get_db)): #i will need db because I get the id from db
@@ -75,22 +75,14 @@ def get_country_by_id(country_id_pass: int, db: Session = Depends(get_db)): #i w
     if not country:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Country does not exist. Create it")
     return country
-    
+
+
+
 @router.put('/country/update/{country_id_pass}', tags=['countries'])
 #here is what we pass
 def update_country_by_id(country_id_pass: int, country_update: CountryUpdate,
                           db: Session = Depends(get_db), token:str=Depends(oauth2_scheme)):
-    try:
-        payload = jwt.decode(token, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
-        username = payload.get("sub")
-        if username is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
-        user = db.query(User).filter(User.email==username).first()
-        if user is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
-
+    user = get_user_from_token(db, token)
     
     existing_country = db.query(Country).filter(Country.country_id==country_id_pass)
     if not existing_country.first():
@@ -107,19 +99,12 @@ def update_country_by_id(country_id_pass: int, country_update: CountryUpdate,
     else:
         return {"message": "You are not authorized"}
 
+
+
 @router.delete('/country/delete/{country_id_pass}', tags=['countries'])      
 def delete_country_by_id(country_id_pass : int, db: Session = Depends(get_db), 
                          token:str=Depends(oauth2_scheme)):
-    try:
-        payload = jwt.decode(token, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
-        username = payload.get("sub")
-        if username is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
-        user = db.query(User).filter(User.email==username).first()
-        if user is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
+    user = get_user_from_token(db, token)
     delete_country = db.query(Country).filter(Country.country_id==country_id_pass)
     if not delete_country.first():
         return {"message" : f"This country ID {country_id_pass} does not exist. Create one first"}
