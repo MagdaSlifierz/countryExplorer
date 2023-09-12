@@ -1,11 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from models import Country
+from models import Country, User
 from schemas import CountryCreate, ShowCountry, CountryUpdate
 from sqlalchemy.orm import Session
 from database import get_db
 from typing import List
 from fastapi.encoders import jsonable_encoder
 from routers.login import oauth2_scheme
+from jose import jwt
+from config import setting
 
 router = APIRouter()
 
@@ -23,6 +25,18 @@ def get_countires():
 def create_country(country: CountryCreate, db: Session = Depends(get_db), token: str=Depends(oauth2_scheme)):
     #country: CountryCreate this is schema user pass schema
     #this goes from database model countryn
+    #this is to decoded the token and it is return as payload data
+    try:
+        payload = jwt.decode(token, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
+        user = db.query(User).filter(User.email==username).first()
+        if user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
+
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
 
         # Create a new country using the Pydantic model's attributes
     new_country = Country(
@@ -30,7 +44,7 @@ def create_country(country: CountryCreate, db: Session = Depends(get_db), token:
         capital=country.capital,
         official_lang=country.official_lang, 
         description=country.description,
-        user_creator_id=country.user_creator_id
+        user_creator_id=user.user_id
         )
 
     db.add(new_country)
@@ -64,11 +78,24 @@ def get_country_by_id(country_id_pass: int, db: Session = Depends(get_db)): #i w
     
 @router.put('/country/update/{country_id_pass}', tags=['countries'])
 #here is what we pass
-def update_country_by_id(country_id_pass: int, country_update: CountryUpdate, db: Session = Depends(get_db), token:str=Depends(oauth2_scheme)):
+def update_country_by_id(country_id_pass: int, country_update: CountryUpdate,
+                          db: Session = Depends(get_db), token:str=Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
+        user = db.query(User).filter(User.email==username).first()
+        if user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
+
+    
     existing_country = db.query(Country).filter(Country.country_id==country_id_pass)
     if not existing_country.first():
         return {"message" : f"No details exists for Country ID {country_id_pass}"}
-    else: 
+    if existing_country().user_creator_id == user.user_id:
         #update key word use dictionary as an input
         # the country_update is pydentic schema and I have to convert to it jesonable_encoder
         #you can use magic method like existing_country.update(country_update.__dict__)
@@ -77,13 +104,30 @@ def update_country_by_id(country_id_pass: int, country_update: CountryUpdate, db
         # print(jsonable_encoder(country_update))
         db.commit()
         return {"message" : f"Detail for Country ID {country_id_pass} has been sucessfully update it."}
+    else:
+        return {"message": "You are not authorized"}
 
 @router.delete('/country/delete/{country_id_pass}', tags=['countries'])      
-def delete_country_by_id(country_id_pass : int, db: Session = Depends(get_db), token:str=Depends(oauth2_scheme)):
+def delete_country_by_id(country_id_pass : int, db: Session = Depends(get_db), 
+                         token:str=Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
+        user = db.query(User).filter(User.email==username).first()
+        if user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unable to verify credentials")
     delete_country = db.query(Country).filter(Country.country_id==country_id_pass)
     if not delete_country.first():
         return {"message" : f"This country ID {country_id_pass} does not exist. Create one first"}
-    else:
+    if delete_country.first().user_creator_id == user.user_id:
         delete_country.delete()
         db.commit()
         return {"message": f"You deleted the country ID {country_id_pass}"}
+    else:
+        return {"message": "You are not authorized"}
+    
+   

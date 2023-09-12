@@ -19,11 +19,13 @@ class Settings:
 
     #pulling from loaddotev 
     POSTGRES_USER = os.getenv("POSTGRES_USER")
-    POSTGRES_PASSWORD=os.getenv("POSTGRES_PASSWORD")
-    POSTGRES_SERVER=os.getenv("POSTGRES_SERVER", "localhost")
-    POSTGRES_PORT=os.getenv("POSTGRES_PORT", 5435)
-    POSTGRES_DB=os.getenv("POSTGRES_DB", "mydb")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+    POSTGRES_SERVER = os.getenv("POSTGRES_SERVER", "localhost")
+    POSTGRES_PORT = os.getenv("POSTGRES_PORT", 5435)
+    POSTGRES_DB = os.getenv("POSTGRES_DB", "mydb")
     DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    ALGORITHM = "HS256"
 
 
 #create a object from the class
