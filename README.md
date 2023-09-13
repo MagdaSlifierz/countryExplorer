@@ -23,7 +23,25 @@ Upon completion, the CountryExplorer App will offer the following features:
 ## Endpoints
 
 The app's API will offer the following endpoints:
+
   <img width="1440" alt="Screenshot 2023-09-12 at 4 57 04 PM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/4b351d4a-7762-4a9d-b6f9-f956c1765277">
+
+
+## Postman - API Response
+
+<img width="1440" alt="Screenshot 2023-09-12 at 4 51 28 PM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/54c27591-a612-4c49-87ed-fe2d9cb96463">
+
+<img width="1440" alt="Screenshot 2023-09-12 at 4 39 52 PM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/0e519bca-ccaa-459a-9b97-2ca828cb9d34">
+
+<img width="1440" alt="Screenshot 2023-09-12 at 4 40 03 PM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/e3519d2d-2cb3-4abc-9071-02630f9fe24d">
+
+<img width="1440" alt="Screenshot 2023-09-12 at 4 39 28 PM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/60c5a9a2-f90a-4509-83dc-554df6bc92bf">
+
+<img width="1440" alt="Screenshot 2023-09-12 at 4 46 45 PM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/992ff89b-3f2f-419b-8eb6-ac3d3ea0be4f">
+
+## Testing Coverage
+
+<img width="1440" alt="Screenshot 2023-09-11 at 10 52 21 AM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/7880925e-9ec4-4f66-b829-3a7a75d9b8b2">
 
 ## Getting Started
 
