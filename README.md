@@ -23,14 +23,7 @@ Upon completion, the CountryExplorer App will offer the following features:
 ## Endpoints
 
 The app's API will offer the following endpoints:
-
-- `POST /api/token`: User authentication endpoint for generating JWT tokens.
-- `POST /countries`: Create a new country entry with details.
-- `GET /countries`: Retrieve a list of all countries.
-- `GET /countries/{country_id}`: Get detailed information about a specific country.
-- `PUT /countries/{country_id}`: Update information about a specific country.
-- `DELETE /countries/{country_id}`: Delete a country entry.
-- `GET /search`: Search for countries based on provided criteria.
+  <img width="1440" alt="Screenshot 2023-09-12 at 4 57 04 PM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/4b351d4a-7762-4a9d-b6f9-f956c1765277">
 
 ## Getting Started
 
