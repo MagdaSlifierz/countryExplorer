@@ -39,7 +39,7 @@ The app's API will offer the following endpoints:
 
 <img width="1440" alt="Screenshot 2023-09-12 at 4 46 45 PM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/992ff89b-3f2f-419b-8eb6-ac3d3ea0be4f">
 
-## Testing Coverage
+## Tests Coverage
 
 <img width="1440" alt="Screenshot 2023-09-11 at 10 52 21 AM" src="https://github.com/MagdaSlifierz/countryExplorer/assets/49603115/7880925e-9ec4-4f66-b829-3a7a75d9b8b2">
 
