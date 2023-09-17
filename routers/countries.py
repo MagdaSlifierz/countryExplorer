@@ -41,6 +41,7 @@ def create_country(country: CountryCreate, db: Session = Depends(get_db), token:
         country_name=country.country_name,
         capital=country.capital,
         official_lang=country.official_lang, 
+        area = country.area,
         description=country.description,
         user_creator_id=user.user_id
         )

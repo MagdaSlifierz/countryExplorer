@@ -28,6 +28,7 @@ class Country(Base):
     country_name = Column(String,  nullable=False)
     capital = Column(String)
     official_lang = Column(String)
+    area = Column(String)
     description = Column(String)
     
     user_creator_id = Column(Integer, ForeignKey('users.user_id'))

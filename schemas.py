@@ -22,6 +22,7 @@ class CountryCreate(BaseModel):
     country_name : str
     capital : str
     official_lang: str
+    area : str
     description : str
     user_creator_id : int
     
@@ -30,6 +31,7 @@ class ShowCountry(BaseModel):
     country_name : str
     capital : str
     official_lang: str
+    area : str
     description : str
 
     class Config:
@@ -39,4 +41,5 @@ class CountryUpdate(BaseModel):
     country_name : str
     capital : str
     official_lang: str
+    area : str
     description : str
