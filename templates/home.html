@@ -3,10 +3,23 @@
 	<title> World </title>
 {% endblock %}
 {% block content %}
-    <h2>
-        Country Explorer
-    </h2>
-    <p1>
-        Learn about the countries around the world
-    </p1>
+
+    <div class="container">
+        <h2> Countries Explorer </h2>
+        <h3> Learn about the countries around the world </h3>
+        </br> </br> </br>
+        <div class="row">
+            {% for country in countries %}
+                <div class="col-md-4 mr-auto">
+                    {% with obj=country %}
+                        {% include 'card.html' %}
+                    {% endwith %}
+                    {% if loop.index % 3 %}
+                        <br>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+  
 {% endblock %}
