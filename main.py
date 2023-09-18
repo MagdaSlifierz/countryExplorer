@@ -7,7 +7,7 @@ from webapp.routers import country as web_country
 
 
 #that's the connection to database
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine) I use alabemic migrations so I dont neet that
 
 #to do not have default name in docs I can specify them by routs. like folder
 
