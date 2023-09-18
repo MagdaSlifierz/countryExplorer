@@ -4,6 +4,7 @@ from database import engine
 from models import Base
 from routers import users, countries, login
 from webapp.routers import country as web_country
+from fastapi.staticfiles import StaticFiles
 
 
 #that's the connection to database
@@ -38,6 +39,8 @@ app = FastAPI(title = setting.TITLE,
               description= setting.DESCRIPTION,
               contact={ "name": setting.NAME} )
 
+#for static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 #this is to include routers
 app.include_router(users.router)
