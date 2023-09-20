@@ -16,3 +16,5 @@ jinja2
 alembic
 
 aiofiles
+
+sqlalchemy-utils

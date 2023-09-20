@@ -1,5 +1,7 @@
 from database import Base
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy_utils import URLType
+
 from sqlalchemy.orm import relationship
 
 
@@ -30,7 +32,7 @@ class Country(Base):
     official_lang = Column(String)
     area = Column(String)
     description = Column(String)
-    
+    flag_image_url = Column(URLType)
     user_creator_id = Column(Integer, ForeignKey('users.user_id'))
 
     #create a relationship between 2 class
