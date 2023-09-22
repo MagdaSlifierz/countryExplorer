@@ -31,8 +31,7 @@ class Country(Base):
     official_lang = Column(String)
     area = Column(String)
     description = Column(String)
-
-
+    
     user_creator_id = Column(Integer, ForeignKey('users.user_id'))
 
     #create a relationship between 2 class
