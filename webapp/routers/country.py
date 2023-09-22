@@ -12,3 +12,9 @@ templates = Jinja2Templates(directory="templates")
 def home(request: Request, db: Session=Depends(get_db)):
     countries = db.query(Country).all()
     return templates.TemplateResponse("home.html", {"request" : request, "countries": countries})
+
+
+@router.get("/detail/{country_id}")
+def country_detail(request: Request, id: int, db: Session=Depends(get_db)):
+    country = db.query(Country).filter(Country.country_id==id).first()
+    return templates.TemplateResponse("country_detail.html", {"request" : request, "country" : country})
