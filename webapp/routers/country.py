@@ -15,6 +15,6 @@ def home(request: Request, db: Session=Depends(get_db)):
 
 
 @router.get("/detail/{country_id}")
-def country_detail(request: Request, id: int, db: Session=Depends(get_db)):
-    country = db.query(Country).filter(Country.country_id==id).first()
+def country_detail(request: Request, country_id: int, db: Session=Depends(get_db)):
+    country = db.query(Country).filter(Country.country_id==country_id).first()
     return templates.TemplateResponse("country_detail.html", {"request" : request, "country" : country})
