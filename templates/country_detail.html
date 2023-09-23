@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title> Country Detail</title>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container"> 
+        <h1> {{country.country_name}} </h1>
+        <p>
+            {{country.description}}
+        </p>
+
+        <table class="table table-hover">
+            <thead>
+                <tbody>
+                <tr>
+                  <th scope="row">Capital</th>
+                  <td>{{country.capital}}</td>
+                  
+                </tr>
+                <tr>
+                  <th scope="row">Language</th>
+                  <td colspan="2"> {{country.official_lang}} </td>
+                </tr>
+                <tr>
+                    <th scope="row">Area</th>
+                    <td>{{country.area}}</td>
+                </tr>
+                
+            </thread>
+            
+        </table>
+
+    </div>
+{% endblock %}
