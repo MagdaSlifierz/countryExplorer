@@ -4,6 +4,7 @@ from database import engine
 from models import Base
 from routers import users, countries, login
 from webapp.routers import country as web_country
+from webapp.routers import user as web_user
 from fastapi.staticfiles import StaticFiles
 
 
@@ -47,4 +48,5 @@ app.include_router(users.router)
 app.include_router(countries.router)
 app.include_router(login.router)
 app.include_router(web_country.router)
+app.include_router(web_user.router)
 

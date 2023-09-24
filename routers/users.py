@@ -8,9 +8,7 @@ from database import get_db
 
 #mini fastapi is a replica of fastapi as main
 router = APIRouter()
-@router.get('/user', tags=['user'])
-def get_user():
-    return "Hello user"
+
 
 #response model help us so user won't see all the models like password, it will see only a usershow schemas filds
 @router.post('/users', tags=['user'], response_model=UserShow)
