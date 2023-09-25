@@ -16,4 +16,4 @@ def registration(request: Request):
 def registration(request: Request, db: Session=Depends(get_db)):
     # I have to read the form accept the form
     form = request.form() # it will accept the fields from the forms
-    print(form)
+    
