@@ -7,6 +7,12 @@
     <div class="container">
         <h2> Countries Explorer </h2>
         <h3> Learn about the countries around the world </h3>
+        </br>
+        {% if msg %}
+        <div class="alert alert-success fw-bold" role="alert">
+            {{ msg }}
+        </div>
+        {% endif %}
         </br> </br> </br>
         <div class="row">
             {% for country in countries %}

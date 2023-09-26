@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Welcome back! Log in!</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center"> Log in</h2>
+    
+    <form method="POST">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" name="password">
+        </div>
+       
+        <button type="submit" class="btn btn-primary">Log in</button>
+    </form>
+
+</br>
+      {% if msg %}
+        <div class="alert alert-success fw-bold" role="success">
+            {{ msg }}
+        </div>
+      {% endif %}
+
+        {% for error in errors %}
+      <div class="alert alert-danger fw-bold" role="alert">
+            {{ error }}
+      </div>
+        {% endfor %}
+  
+</div>
+{% endblock %}
