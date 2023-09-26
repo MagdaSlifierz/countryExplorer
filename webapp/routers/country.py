@@ -9,9 +9,9 @@ router = APIRouter(include_in_schema=False)
 templates = Jinja2Templates(directory="templates")
 
 @router.get("/")
-def home(request: Request, db: Session=Depends(get_db)):
+def home(request: Request, db: Session=Depends(get_db), msg:str=None):
     countries = db.query(Country).all()
-    return templates.TemplateResponse("home.html", {"request" : request, "countries": countries})
+    return templates.TemplateResponse("home.html", {"request" : request, "countries": countries, "msg":msg})
 
 
 @router.get("/detail/{country_id}")
