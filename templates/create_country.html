@@ -33,6 +33,13 @@
   		    </div>
   			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
+		
+	</br> </br>
+		{% for error in errors %}
+            <div class="alert alert-danger fw-bold" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
 </div>
 
 {% endblock %}
