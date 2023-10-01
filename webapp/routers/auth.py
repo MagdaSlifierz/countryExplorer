@@ -16,7 +16,7 @@ def login(request: Request):
 
 
 @router.post("/login")
-async def login(response: Response, request, Request, db: Session=Depends(get_db)):
+async def login(response: Response, request: Request, db: Session=Depends(get_db)):
     form = await request.form()
     email = form.get("email")
     password = form.get("password")
