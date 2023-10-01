@@ -19,7 +19,7 @@ def country_detail(request: Request, country_id: int, db: Session=Depends(get_db
     country = db.query(Country).filter(Country.country_id==country_id).first()
     return templates.TemplateResponse("country_detail.html", {"request" : request, "country" : country})
 
-@router.post("/create-country")
+@router.post("/create-country/")
 def create_country(reqest: Request, db: Session=Depends(get_db)):
     return templates.TemplateResponse("create_country.html", {"reqest" : reqest})
 
