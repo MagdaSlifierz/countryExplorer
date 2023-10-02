@@ -18,3 +18,5 @@ alembic
 aiofiles
 
 sqlalchemy-utils
+
+black
