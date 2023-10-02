@@ -107,3 +107,33 @@ async def create_country(request: Request, db: Session = Depends(get_db)):
         return templates.TemplateResponse(
             "create_country.html", {"request": request, "errors": errors}
         )
+
+
+@router.get("/delete_country")
+def delete_country_show_list(request: Request, db: Session = Depends(get_db)):
+    # fetch the token I need data from particular user
+    token = request.cookies.get("access_token")
+    errors = []
+    if token is None:
+        errors.append("You are not logged in")
+        return templates.TemplateResponse(
+            "countries_to_delete.html", {"request": request, "errors": errors}
+        )
+    else:
+        try:
+            scheme, _, parm = token.partition(" ")
+            payload = jwt.decode(parm, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
+            email = payload.get("sub")
+            user = db.query(User).filter(User.email == email).first()
+            countries = (
+                db.query(Country).filter(Country.user_creator_id == user.user_id).all()
+            )
+            return templates.TemplateResponse(
+                "countries_to_delete.html", {"request": request, "countires": countries}
+            )
+        except Exception as e:
+            errors.append("Something is wrong")
+            print(e)
+            return templates.TemplateResponse(
+                "countries_to_delete.html", {"request": request, "errors": errors}
+            )

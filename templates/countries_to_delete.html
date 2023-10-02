@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    <title> List of countries to delete </title>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="container">
+    <h2> Countries to delete </h2>
+
+</br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id number</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for country in countires %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{country.country_name}}</td>
+                <td>{{country.description}}</td>
+                <td><button type="button" class="=btn btn-danger"> Delete</button></td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+    {% for error in errors %}
+    <div class="alert alert-danger fw-bold" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}
