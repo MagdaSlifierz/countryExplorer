@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from database import get_db
 from jose import jwt
 from config import setting
+from typing import Optional
 
 
 router = APIRouter(include_in_schema=False)
@@ -137,3 +138,11 @@ def delete_country_show_list(request: Request, db: Session = Depends(get_db)):
             return templates.TemplateResponse(
                 "countries_to_delete.html", {"request": request, "errors": errors}
             )
+
+
+@router.get("/search")
+def search_country(request: Request, query: Optional[str], db: Session=Depends(get_db)):
+    #the query parameter has to go from search box first and match contries
+    country = db.query(Country).filter(Country.country_name.contains(query)).all()
+    return templates.TemplateResponse("home.html", {"request": request, "country": country})
+

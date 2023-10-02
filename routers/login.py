@@ -1,7 +1,7 @@
 # this library will create some form
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from utilis import OAuth2PasswordBearerWithCookie
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from database import get_db
 from models import User
@@ -19,7 +19,7 @@ router = APIRouter()
 @router.post("/login/token", tags=["login"])
 # the funct will take input form_data
 def get_token_after_authentication(
-    form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
+    response: Response, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
     # I have to veryfie if the user exists
     # I have to query user table in models.py

@@ -11,30 +11,29 @@
 <div class="container">
     <h2> Countries to delete </h2>
 
-</br>
-<div id="result"></div>
+    </br>
+    <div id="result"></div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Id number</th>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for country in countires %}
-            <tr>
-                <th scope="row">{{loop.index}}</th>
-                <td>{{country.country_name}}</td>
-                <td>{{country.description}}</td>
-                <td><button type="button" class="=btn btn-danger" onclick="delete_country({{country.country_id}})"> Delete</button></td>
-            </tr>
-            {% endfor %}
-            
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id number</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for country in countires %}
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{country.country_name}}</td>
+                    <td>{{country.description}}</td>
+                    <td><button class="btn btn-danger" onclick="delete_country({{country.country_id}})"> Delete</button></td>
+                </tr>
+  
+            </tbody>
+        </table>
     {% endblock %}
 
     {% for error in errors %}
