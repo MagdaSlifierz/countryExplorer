@@ -3,7 +3,7 @@ from models import Country, User
 from schemas import CountryCreate, ShowCountry, CountryUpdate
 from sqlalchemy.orm import Session
 from database import get_db
-from typing import List
+from typing import List, Optional
 from fastapi.encoders import jsonable_encoder
 from routers.login import oauth2_scheme
 from jose import jwt
@@ -67,6 +67,15 @@ def create_country(
     #     # Handle any exceptions that occur during database operations
     #     db.rollback()
     #     raise HTTPException(status_code=500, detail="Internal Server Error")
+
+@router.get("/country/autocomplete")
+def autocomplete(term: Optional[str], db: Session=Depends(get_db)): # take argument that user type term
+    countries = db.query(Country).filter(Country.country_name.contains(term)).all()
+    #list sugestions will show the output
+    sugestions = []
+    for country in countries:
+        sugestions.append(country.country_name)
+    return sugestions
 
 
 # order metter in fasapi.
@@ -146,3 +155,5 @@ def delete_country_by_id(
         return {"message": f"You deleted the country ID {country_id_pass}"}
     else:
         return {"message": "You are not authorized"}
+
+
