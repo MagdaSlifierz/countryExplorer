@@ -6,6 +6,7 @@ from database import get_db
 from jose import jwt
 from config import setting
 from typing import Optional
+from fastapi.responses import HTMLResponse
 
 
 router = APIRouter(include_in_schema=False)
@@ -19,6 +20,20 @@ def home(request: Request, db: Session = Depends(get_db), msg: str = None):
         "home.html", {"request": request, "countries": countries, "msg": msg}
     )
 
+@router.get("/countries/", response_class=HTMLResponse)
+async def get_items(request: Request, page: int = 1, page_size: int = 5):
+    start_idx = (page - 1) * page_size
+    end_idx = start_idx + page_size
+    paginated_items = Country[start_idx:end_idx]
+    total_items = len(Country)
+    total_pages = (total_items + page_size - 1) // page_size
+    prev_page = page - 1 if page > 1 else 1
+    next_page = page + 1 if page < total_pages else total_pages
+
+    return templates.TemplateResponse(
+        "home.html",
+        {"request": request, "items": paginated_items, "page": page, "total_pages": total_pages, "prev_page": prev_page, "next_page": next_page},
+    )
 
 @router.get("/detail/{country_id}")
 def country_detail(request: Request, country_id: int, db: Session = Depends(get_db)):
@@ -141,8 +156,8 @@ def delete_country_show_list(request: Request, db: Session = Depends(get_db)):
 
 
 @router.get("/search")
-def search_country(request: Request, query: Optional[str], db: Session=Depends(get_db)):
+def search_country(request: Request, query: str = "", db: Session = Depends(get_db)):
     #the query parameter has to go from search box first and match contries
-    country = db.query(Country).filter(Country.country_name.contains(query)).all()
-    return templates.TemplateResponse("home.html", {"request": request, "country": country})
-
+    countries = db.query(Country).filter(Country.country_name.contains(query)).all()
+    return templates.TemplateResponse(
+        "home.html", {"request": request, "countries": countries})
