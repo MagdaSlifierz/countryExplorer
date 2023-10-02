@@ -1,5 +1,6 @@
 # this library will create some form
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from utilis import OAuth2PasswordBearerWithCookie
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from database import get_db
@@ -10,7 +11,7 @@ from config import setting
 
 # create object from this OAuth
 # I have to pass url route
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login/token")
+oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="login/token")
 
 router = APIRouter()
 
@@ -41,4 +42,5 @@ def get_token_after_authentication(
     # not create token by using this data_token encode
     # pass configuration stuff like security_key and algotithm
     jwt_token = jwt.encode(data_token, setting.SECRET_KEY, setting.ALGORITHM)
+    response.set_cookie(key="access_token", value=f"Bearer {jwt_token}", httponly=True)
     return {"access_token": jwt_token, "token_type": "bearer"}
