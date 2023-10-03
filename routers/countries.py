@@ -122,7 +122,7 @@ def update_country_by_id(
     existing_country = db.query(Country).filter(Country.country_id == country_id_pass)
     if not existing_country.first():
         return {"message": f"No details exists for Country ID {country_id_pass}"}
-    if existing_country().user_creator_id == user.user_id:
+    if existing_country.first().user_creator_id == user.user_id:
         # update key word use dictionary as an input
         # the country_update is pydentic schema and I have to convert to it jesonable_encoder
         # you can use magic method like existing_country.update(country_update.__dict__)
