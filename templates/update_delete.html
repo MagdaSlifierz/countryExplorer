@@ -2,19 +2,19 @@
 
 
 {% block title %}
-    <title> List of countries to delete </title>
+    <title> List of countries to update or delete </title>
 {% endblock %}
 
 
 
 {% block content %}
 <div class="container">
-    <h2> Countries to delete </h2>
+    <h2 class="text-center"> Countries to update or delete </h2>
 
     </br>
     <div id="result"></div>
 
-        <table class="table">
+        <table id="datatable" class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Id number</th>
@@ -29,23 +29,33 @@
                     <th scope="row">{{loop.index}}</th>
                     <td>{{country.country_name}}</td>
                     <td>{{country.description}}</td>
-                    <td><button class="btn btn-danger" onclick="delete_country({{country.country_id}})"> Delete</button></td>
+                    <td><button class="btn btn-danger" onclick="delete_country({{country.country_id}})"> Delete</button>
+                        <a href="/update/{{country.country_id}}" class="btn btn-primary">Update</a>
+                    
+                    </td>
                 </tr>
+                {% endfor %}
   
             </tbody>
         </table>
+
+            {% for error in errors %}
+            <div class="alert alert-danger fw-bold" role="alert">
+                {{ error }}
+            </div>
+            {% endfor %}
+</div>
     {% endblock %}
 
-    {% for error in errors %}
-    <div class="alert alert-danger fw-bold" role="alert">
-        {{ error }}
-    </div>
-    {% endfor %}
-
-</div>
-
 {% block script %}
-    <script type="text/javascript">
+
+        <script type="text/javascript">
+        $(document).ready(function()
+        {
+            $("#datatable").DataTable()
+        });
+        </script>
+        <script type="text/javascript">
         function delete_country(country_id){
             fetch("/country/delete/"+country_id, {method:'DELETE'})
             .then(response => response.json())

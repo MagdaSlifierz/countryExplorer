@@ -35,11 +35,20 @@ async def get_items(request: Request, page: int = 1, page_size: int = 5):
         {"request": request, "items": paginated_items, "page": page, "total_pages": total_pages, "prev_page": prev_page, "next_page": next_page},
     )
 
+
 @router.get("/detail/{country_id}")
 def country_detail(request: Request, country_id: int, db: Session = Depends(get_db)):
     country = db.query(Country).filter(Country.country_id == country_id).first()
+    email = db.query(User).filter(User.id == country.user_creator_id).first().email
     return templates.TemplateResponse(
-        "country_detail.html", {"request": request, "country": country}
+        "country_detail.html", {"request": request, "country": country, "email" : email})
+
+
+@router.get("/update/{country_id}")
+def update_country(request: Request, country_id: int, db: Session=Depends(get_db)):
+    country = db.query(Country).filter(Country.country_id == country_id).first()
+    return templates.TemplateResponse(
+        "update_country.html", {"request": request, "country": country}
     )
 
 
@@ -125,7 +134,7 @@ async def create_country(request: Request, db: Session = Depends(get_db)):
         )
 
 
-@router.get("/delete_country")
+@router.get("/update_delete_country")
 def delete_country_show_list(request: Request, db: Session = Depends(get_db)):
     # fetch the token I need data from particular user
     token = request.cookies.get("access_token")
@@ -133,7 +142,7 @@ def delete_country_show_list(request: Request, db: Session = Depends(get_db)):
     if token is None:
         errors.append("You are not logged in")
         return templates.TemplateResponse(
-            "countries_to_delete.html", {"request": request, "errors": errors}
+            "update_delete.html", {"request": request, "errors": errors}
         )
     else:
         try:
@@ -145,13 +154,13 @@ def delete_country_show_list(request: Request, db: Session = Depends(get_db)):
                 db.query(Country).filter(Country.user_creator_id == user.user_id).all()
             )
             return templates.TemplateResponse(
-                "countries_to_delete.html", {"request": request, "countires": countries}
+                "update_delete.html", {"request": request, "countires": countries}
             )
         except Exception as e:
             errors.append("Something is wrong")
             print(e)
             return templates.TemplateResponse(
-                "countries_to_delete.html", {"request": request, "errors": errors}
+                "update_delete.html", {"request": request, "errors": errors}
             )
 
 
