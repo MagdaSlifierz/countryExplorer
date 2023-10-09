@@ -39,7 +39,7 @@ async def get_items(request: Request, page: int = 1, page_size: int = 5):
 @router.get("/detail/{country_id}")
 def country_detail(request: Request, country_id: int, db: Session = Depends(get_db)):
     country = db.query(Country).filter(Country.country_id == country_id).first()
-    email = db.query(User).filter(User.id == country.user_creator_id).first().email
+    email = db.query(User).filter(User.user_id == country.user_creator_id).first()
     return templates.TemplateResponse(
         "country_detail.html", {"request": request, "country": country, "email" : email})
 
@@ -72,7 +72,7 @@ async def create_country(request: Request, db: Session = Depends(get_db)):
         errors.append(
             "You have to enter the name of a new country that you want to learn about it "
         )
-
+    
     if not description:
         errors.append("Description should be added ")
 
