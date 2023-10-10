@@ -29,8 +29,9 @@
                     <th scope="row">{{loop.index}}</th>
                     <td>{{country.country_name}}</td>
                     <td>{{country.description}}</td>
-                    <td><button class="btn btn-danger" onclick="delete_country({{country.country_id}})"> Delete</button>
-                        <a href="/update/{{country.country_id}}" class="btn btn-primary">Update</a>
+                    <td><button class="btn btn-danger" onclick="delete_country({{country.country_id}})"> Delete</button>  </br>
+                   
+                    <a href="/update/{{country.country_id}}" class="btn btn-primary">Update</a>
                     
                     </td>
                 </tr>

@@ -20,7 +20,7 @@ def home(request: Request, db: Session = Depends(get_db), msg: str = None):
         "home.html", {"request": request, "countries": countries, "msg": msg}
     )
 
-@router.get("/countries/", response_class=HTMLResponse)
+@router.get("/home/", response_class=HTMLResponse)
 async def get_items(request: Request, page: int = 1, page_size: int = 5):
     start_idx = (page - 1) * page_size
     end_idx = start_idx + page_size
