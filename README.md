@@ -1,6 +1,6 @@
-# CountryExplorer App - Under Construction
+# CountryExplorer App
 
-Welcome to the README document for the **CountryExplorer App**, a personal project aimed at teaching people about different countries using the FastAPI framework. Please note that the app is currently under construction, and this README provides an overview of the app's purpose, features, and functionality that will be available upon completion.
+Welcome to the README document for the **CountryExplorer App**, a personal project aimed at teaching people about different countries using the FastAPI framework. 
 
 ## Overview
 
@@ -57,4 +57,4 @@ Please note that these instructions assume a basic familiarity with Python, Fast
 
 Thank you for your interest in the CountryExplorer App! As this is an ongoing personal project for learning purposes, please stay tuned for updates and the official release. The goal is to create an educational and informative platform for exploring and sharing information about different countries. If you have any questions or suggestions, feel free to reach out.
 
-**Note:** This README is a placeholder and will be updated as the project progresses.
+
