@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+    - 8000:8000
+    environment:
+    - DB_DBNAME:mydb
+    - DB_PORT:5432
+    - DB_USER:root
+    - DB_PASS:password
+    - DB_HOST:127.0.0.1
+    network_mode: host
+
