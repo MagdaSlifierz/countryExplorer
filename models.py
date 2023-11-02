@@ -30,6 +30,7 @@ class Country(Base):
     official_lang = Column(String)
     area = Column(String)
     description = Column(String)
+    #addinf=g the image to coutry
     country_image = Column(String)
     
     user_creator_id = Column(Integer, ForeignKey("users.user_id"))
