@@ -6,6 +6,9 @@ Welcome to the README document for the **CountryExplorer App**, a personal proje
 
 The CountryExplorer App is designed to provide users with information about various countries. It is built using the FastAPI framework and focuses on allowing users to contribute and access information related to different countries. Users will be able to add details about countries, including descriptions, information about the people, capital city, and official language.
 
+## Note
+I'm learning how to add the image to each country so that users can also add the flag of the country or some pictures related to the attractions of each country. This feature will enhance the user experience and make the app more informative and engaging.
+
 ## Features
 
 Upon completion, the CountryExplorer App will offer the following features:
