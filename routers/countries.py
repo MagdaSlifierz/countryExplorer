@@ -93,7 +93,7 @@ async def create_upload_file(
     db: Session = Depends(get_db),
     token: str = Depends(oauth2_scheme),
 ):
-    FILEPATH = "./static/images/"
+    FILEPATH = "static/images/"
     filename = file.filename
     # example test.png
     extension = filename.split(".")[1]
@@ -133,7 +133,8 @@ async def create_upload_file(
         )
     country.country_image = token_name
     db.commit()
-    file_url = "localhost:8000" + generated_name[1:]
+    # file_url = "localhost:8000" + generated_name[1:]
+    file_url = "/static/images/" + token_name
     return {"status": "ok", "filename": file_url}
 
 

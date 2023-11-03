@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Depends, status, responses
+from fastapi import APIRouter, Request, Depends, status, responses, File, UploadFile, HTTPException
 from fastapi.templating import Jinja2Templates
 from models import Country, User
 from sqlalchemy.orm import Session
@@ -7,6 +7,10 @@ from jose import jwt
 from config import setting
 from typing import Optional
 from fastapi.responses import HTMLResponse
+import secrets
+from fastapi.staticfiles import StaticFiles
+from PIL import Image
+from routers.login import oauth2_scheme
 
 
 router = APIRouter(include_in_schema=False)
@@ -133,6 +137,56 @@ async def create_country(request: Request, db: Session = Depends(get_db)):
         return templates.TemplateResponse(
             "create_country.html", {"request": request, "errors": errors}
         )
+@router.post("/country/uploadfile/{country_id_pass}", tags=["countries"])
+async def create_upload_file(
+    country_id_pass: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    token: str = Depends(oauth2_scheme),
+):
+    FILEPATH = "static/images/"
+    filename = file.filename
+    # example test.png
+    extension = filename.split(".")[1]
+
+    if extension not in ["png", 'jpg']:
+        return {"status": "error", "detial" : "File extension not allowed to upload"}
+    
+    #./static/images/"ududdj45.png
+    token_name = secrets.token_hex(10)+"."+extension
+    #generate info
+    generated_name = FILEPATH + token_name
+    file_content = await file.read()
+
+    with open(generated_name, "wb") as file:
+        file.write(file_content)
+
+    #scallinf images by pillow
+    img = Image.open(generated_name)
+    img = img.resize(size = (200,200))
+    img.save(generated_name)
+
+    file.close()
+
+    #get contry details
+    country = db.query(Country).filter(Country.country_id == country_id_pass).first()
+    
+
+    if not country:
+        return {"status": "error", "detail": "Country does not exist"}
+
+    owner =  country.user_creator_id
+    #check if right persone
+    if owner != country.user_creator_id :
+        raise HTTPException(
+            status_code = status.HTTP_401_UNAUTHORIZED, 
+            detail = "Not authenticated to perform this action",
+        )
+    country.country_image = token_name
+    db.commit()
+    file_url = "localhost:8000" + generated_name[1:]
+    return {"status": "ok", "filename": file_url}
+
 
 
 @router.get("/update_delete_country")
