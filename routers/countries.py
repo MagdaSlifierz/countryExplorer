@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile
 from models import Country, User
 from schemas import CountryCreate, ShowCountry, CountryUpdate
 from sqlalchemy.orm import Session
@@ -8,9 +8,12 @@ from fastapi.encoders import jsonable_encoder
 from routers.login import oauth2_scheme
 from jose import jwt
 from config import setting
-
+import secrets
+from fastapi.staticfiles import StaticFiles
+from PIL import Image
 router = APIRouter()
 
+# static file setup 
 
 def get_user_from_token(db, token):
     # this is to decoded the token and it is return as payload data
@@ -44,6 +47,7 @@ def create_country(
     country: CountryCreate,
     db: Session = Depends(get_db),
     token: str = Depends(oauth2_scheme),
+    file: UploadFile = File(None),
 ):
     # country: CountryCreate this is schema user pass schema
     # this goes from database model countryn
@@ -59,6 +63,18 @@ def create_country(
         user_creator_id=user.user_id,
     )
 
+    if file:
+        extension = file.filename.split("."[-1])
+        if extension not in ["png", "jpg"]:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="File extension not allowed for image upload",
+            )
+        generated_name = f"images/{secrets.token_hex(10)}.{extension}"
+        with open(generated_name, "wb") as image_file:
+            image_file.write(file.file.read())
+        new_country.country_image = generated_name
+
     db.add(new_country)
     db.commit()
     db.refresh(new_country)
@@ -67,6 +83,62 @@ def create_country(
     #     # Handle any exceptions that occur during database operations
     #     db.rollback()
     #     raise HTTPException(status_code=500, detail="Internal Server Error")
+
+
+
+@router.post("/country/uploadfile/{country_id_pass}", tags=["countries"])
+async def create_upload_file(
+    country_id_pass: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    token: str = Depends(oauth2_scheme),
+):
+    FILEPATH = "static/images/"
+    filename = file.filename
+    # example test.png
+    extension = filename.split(".")[1]
+
+    if extension not in ["png", 'jpg']:
+        return {"status": "error", "detial" : "File extension not allowed to upload"}
+    
+    #./static/images/"ududdj45.png
+    token_name = secrets.token_hex(10)+"."+extension
+    #generate info
+    generated_name = FILEPATH + token_name
+    file_content = await file.read()
+
+    with open(generated_name, "wb") as file:
+        file.write(file_content)
+
+    #scallinf images by pillow
+    img = Image.open(generated_name)
+    img = img.resize(size = (200,200))
+    img.save(generated_name)
+
+    file.close()
+
+    #get contry details
+    country = db.query(Country).filter(Country.country_id == country_id_pass).first()
+    
+
+    if not country:
+        return {"status": "error", "detail": "Country does not exist"}
+
+    owner =  country.user_creator_id
+    #check if right persone
+    if owner != country.user_creator_id :
+        raise HTTPException(
+            status_code = status.HTTP_401_UNAUTHORIZED, 
+            detail = "Not authenticated to perform this action",
+        )
+    country.country_image = token_name
+    db.commit()
+    # file_url = "localhost:8000" + generated_name[1:]
+    file_url = "/static/images/" + token_name
+    return {"status": "ok", "filename": file_url}
+
+
+
 
 @router.get("/country/autocomplete")
 def autocomplete(term: Optional[str], db: Session=Depends(get_db)): # take argument that user type term
@@ -155,5 +227,3 @@ def delete_country_by_id(
         return {"message": f"You deleted the country ID {country_id_pass}"}
     else:
         return {"message": "You are not authorized"}
-
-

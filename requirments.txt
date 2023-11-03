@@ -20,3 +20,5 @@ aiofiles
 sqlalchemy-utils
 
 black
+
+pillow

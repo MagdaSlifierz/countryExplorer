@@ -6,6 +6,7 @@ from hashing import Hasher
 from database import get_db
 
 
+
 # mini fastapi is a replica of fastapi as main
 router = APIRouter()
 

@@ -37,7 +37,7 @@ app = FastAPI(
 )
 
 # for static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static"),name="static")
 
 # this is to include routers
 app.include_router(users.router)
